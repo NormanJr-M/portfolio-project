@@ -1,293 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Norman Junior Mohale - Portfolio</title>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <title>Norman Junior Mohale — IT Support & Web Developer</title>
+   <meta name="description"
+      content="Portfolio of Norman Junior Mohale — IT Support Specialist, Web Developer and Network Infrastructure Technician." />
 
-  <!-- Google Fonts: one font for headings, one for regular text -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Philosopher:wght@400;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet" />
 
-  <!-- Our own CSS file -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
+
 <body>
 
-  <!-- ============ HEADER / NAVIGATION BAR ============ -->
-  <header id="header">
-    <div class="container header-inner">
+   <!-- ============ TOP NAV BAR ============-->
+   <header class="topbar">
+      <button class="brand" type="button" data-goto="0" aria-label="Back to home">
+         <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 11.5 12 4l9 7.5M6 10v10h12V10" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round" />
+         </svg>
+         <span>Home</span>
+      </button>
+      <nav class="topnav" id="topnav" aria-label="Primary"></nav>
+   </header>
 
-      <a href="#home" class="logo">Norman<span>.</span></a>
+   <!-- ============ THE SLIDER ============-->
+   <main class="deck" id="deck" aria-live="polite">
+      <div class="track" id="track">
 
-      <!-- This is the menu that turns into a dropdown on mobile -->
-      <nav id="navMenu">
-        <a href="#home" class="nav-link">Home</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#contact" class="nav-link">Contact</a>
-      </nav>
+         <!-- HOME -->
+         <section class="panel panel--air" id="air" aria-label="Home">
+            <div class="panel__glow"></div>
+            <div class="panel__inner">
+               <p class="eyebrow">Air &mdash; Freedom</p>
+               <h1 class="title">Norman J. Mohale</h1>
+               <p class="tagline">IT Support Specialist &amp; Web Developer</p>
+               <p class="lede">
+                  I move like air between two worlds &mdash; the physical network (cabling,
+                  switches, on-site support) and the digital one (code, websites, cloud).
+                  Based in Boksburg, South Africa, and open to remote work.
+               </p>
+               <div class="row">
+                  <a class="btn btn--solid" href="#fire" data-goto="3">View Experience</a>
+                  <a class="btn btn--ghost" href="#energy" data-goto="4">Get in Touch</a>
+               </div>
+            </div>
+         </section>
 
-      <!-- Hamburger button, only visible on small screens -->
-      <button id="menuBtn" aria-label="Open menu">☰</button>
+         <!-- ABOUT -->
+         <section class="panel panel--water" id="water" aria-label="About">
+            <div class="panel__glow"></div>
+            <div class="panel__inner">
+               <p class="eyebrow">Water &mdash; Change</p>
+               <h2 class="title">About Me</h2>
+               <p class="lede">
+                  2+ years of experience spanning network infrastructure support, help
+                  desk work, and software &amp; web development. Comfortable moving between
+                  Cisco/Huawei/Aruba network configuration and Python, PHP or
+                  React-based development &mdash; whichever the problem calls for.
+               </p>
+               <div class="grid grid--3">
+                  <article class="card">
+                     <h3>Grounded</h3>
+                     <p>Diploma in IT — Software Development, Rosebank College (2023).</p>
+                  </article>
+                  <article class="card">
+                     <h3>Certified</h3>
+                     <p>CompTIA Cloud Essentials+ (2024) — cloud, DevOps &amp; CI/CD fundamentals.</p>
+                  </article>
+                  <article class="card">
+                     <h3>Reliable</h3>
+                     <p>Detail-oriented, adaptable, and used to supporting distributed teams.</p>
+                  </article>
+               </div>
+            </div>
+         </section>
 
-    </div>
-  </header>
+         <!-- SKILLS -->
+         <section class="panel panel--earth" id="earth" aria-label="Skills">
+            <div class="panel__glow"></div>
+            <div class="panel__inner">
+               <p class="eyebrow">Earth &mdash; Substance</p>
+               <h2 class="title">Skills</h2>
+               <p class="lede">Solid and grounded — the stance before the strike.</p>
+               <ul class="grid grid--4 skills">
+                  <li class="card">
+                     <h3>Development</h3>
+                     <p>Python &middot; Java &middot; JavaScript &middot; PHP &middot; HTML5 &middot; CSS3 &middot;
+                        React.js &middot; SQL</p>
+                  </li>
+                  <li class="card">
+                     <h3>IT Support</h3>
+                     <p>Hardware &amp; software troubleshooting &middot; workstation repair &middot; ticketing &amp;
+                        documentation</p>
+                  </li>
+                  <li class="card">
+                     <h3>Networking</h3>
+                     <p>Fibre &amp; LAN install &middot; Cisco &middot; Huawei &middot; Aruba &middot; CCTV &middot;
+                        access control</p>
+                  </li>
+                  <li class="card">
+                     <h3>Cloud &amp; DevOps</h3>
+                     <p>Azure fundamentals &middot; CI/CD &middot; Git/GitHub &middot; Cloudflare &middot; WPEngine</p>
+                  </li>
+               </ul>
+            </div>
+         </section>
 
-  <!-- ============ HERO SECTION ============ -->
-  <section id="home" class="hero">
-    <div class="container">
-      <p class="tagline">👋 Open to opportunities</p>
+         <!-- EXPERIENCE -->
+         <section class="panel panel--fire" id="fire" aria-label="Experience">
+            <div class="panel__glow"></div>
+            <div class="panel__inner">
+               <p class="eyebrow">Fire &mdash; Drive</p>
+               <h2 class="title">Experience</h2>
+               <div class="grid grid--3 projects">
+                  <article class="card card--project">
+                     <span class="tag">Oct 2024 &ndash; Present</span>
+                     <h3>IT Infrastructure Technician</h3>
+                     <p>BroadVision Hub. On-site &amp; remote support, fibre/LAN installs, Cisco/Huawei/Aruba switch
+                        &amp; access point deployment.</p>
+                  </article>
+                  <article class="card card--project">
+                     <span class="tag">Jul 2024 &ndash; Jul 2025</span>
+                     <h3>Cloud Development Intern</h3>
+                     <p>Gofourth Learning. Built web apps with HTML/CSS/JS, applied CI/CD to WordPress &amp; PHP
+                        deployments, used Git in a team.</p>
+                  </article>
+                  <article class="card card--project">
+                     <span class="tag">Jan 2024 &ndash; Mar 2024</span>
+                     <h3>Student Administration Intern</h3>
+                     <p>Jeppe College. Managed student records and reporting using Excel and Word.</p>
+                  </article>
+               </div>
+            </div>
+         </section>
 
-      <h1>Hi, I'm Norman.<br />I build things and fix things.</h1>
-
-      <p class="hero-text">
-        I'm an IT Technician from Boksburg, South Africa, currently transitioning into
-        Front-End and Software Development — HTML, CSS, JavaScript, C# and Java.
-      </p>
-
-      <!-- Button group -->
-      <div class="btn-group">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="#contact" class="btn btn-outline">Contact Me</a>
-      </div>
-
-      <!-- Simple stat boxes -->
-      <div class="stats">
-        <div class="stat-box">
-          <h3 class="counter" data-target="3">0</h3>
-          <p>Years in IT</p>
-        </div>
-        <div class="stat-box">
-          <h3 class="counter" data-target="6">0</h3>
-          <p>Total Projects</p>
-        </div>
-        <div class="stat-box">
-          <h3 class="counter" data-target="3">0</h3>
-          <p>Projects Built</p>
-        </div>
-        <div class="stat-box">
-          <h3 class="counter" data-target="3">0</h3>
-          <p>Languages Spoken</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ABOUT SECTION ============ -->
-  <section id="about" class="section">
-    <div class="container">
-      <h2 class="section-title">About Me</h2>
-
-      <div class="about-grid">
-        <!-- Left column: text about me -->
-        <div class="about-text">
-          <p>
-            I'm Norman — I speak Sepedi, English and Xitsonga, and I grew up in Boksburg.
-            For the last few years I've been the person people call when something breaks.
-          </p>
-          <p>
-            I hold a Diploma in Software Development from Rosebank College. My day job runs
-            on hardware troubleshooting, Active Directory, Microsoft 365, networking and
-            CCTV systems.
-          </p>
-          <p>
-            Outside of work I write fantasy stories for fun. Building a whole world from
-            nothing is good practice for building a website from a blank file!
-          </p>
-        </div>
-
-        <!-- Right column: quick facts card -->
-        <div class="info-card">
-          <h3>Quick Facts</h3>
-          <ul>
-            <li><span>Role</span> IT Support → Software Dev</li>
-            <li><span>Location</span> Boksburg, South Africa</li>
-            <li><span>Education</span> Rosebank College</li>
-            <li><span>Languages</span> Sepedi, English, Xitsonga</li>
-            <li><span>Status</span> Open to work</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SKILLS SECTION ============ -->
-  <section id="skills" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">My Skills</h2>
-
-      <div class="skills-grid">
-        <!-- Development skills -->
-        <div>
-          <h3 class="skills-heading">Development</h3>
-          <ul class="skill-list">
-            <li>HTML5</li>
-            <li>CSS3</li>
-            <li>JavaScript</li>
-            <li>C#</li>
-            <li>Java</li>
-            <li>SQL</li>
-            <li>Git &amp; GitHub</li>
-            <li>Responsive Design</li>
-          </ul>
-        </div>
-
-        <!-- IT support skills -->
-        <div>
-          <h3 class="skills-heading">IT &amp; Infrastructure</h3>
-          <ul class="skill-list">
-            <li>Helpdesk Support</li>
-            <li>Networking</li>
-            <li>CCTV Systems</li>
-            <li>Windows Admin</li>
-            <li>Microsoft 365</li>
-            <li>Hardware Troubleshooting</li>
-            <li>Remote Support</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ PROJECTS SECTION ============ -->
-  <section id="projects" class="section">
-    <div class="container">
-      <h2 class="section-title">My Projects</h2>
-
-      <!-- Every project uses the same card layout -->
-      <div class="projects-grid">
-
-        <div class="project-card">
-          <h3>Helpdesk Ticket System</h3>
-          <p>A simple tool for tracking support tickets, priorities and deadlines.</p>
-          <p class="project-tags">HTML • CSS • JavaScript</p>
-          <a href="#" class="btn btn-sm">View Project</a>
-        </div>
-
-        <div class="project-card">
-          <h3>Expense Tracker</h3>
-          <p>Helps users log spending, set budgets, and see where their money goes.</p>
-          <p class="project-tags">C# • SQL</p>
-          <a href="#" class="btn btn-sm">View Project</a>
-        </div>
-
-        <div class="project-card">
-          <h3>This Portfolio</h3>
-          <p>The website you're looking at right now, built from scratch.</p>
-          <p class="project-tags">HTML • CSS • JavaScript</p>
-          <a href="#" class="btn btn-sm">View Project</a>
-        </div>
-
-        <div class="project-card">
-          <h3>Task Dashboard</h3>
-          <p>A kanban-style board for organising day-to-day tasks.</p>
-          <p class="project-tags">JavaScript • CSS Grid</p>
-          <a href="#" class="btn btn-sm">View Project</a>
-        </div>
-
-        <div class="project-card">
-          <h3>CCTV Monitoring UI</h3>
-          <p>A dashboard concept for watching multiple camera feeds and alerts.</p>
-          <p class="project-tags">UI/UX • JavaScript</p>
-          <a href="#" class="btn btn-sm">View Project</a>
-        </div>
-
-        <div class="project-card">
-          <h3>IT Asset Tracker</h3>
-          <p>Keeps track of hardware assignments, warranty and lifecycle status.</p>
-          <p class="project-tags">HTML • CSS • JavaScript</p>
-          <a href="#" class="btn btn-sm">View Project</a>
-        </div>
+         <!-- CONTACT -->
+         <section class="panel panel--energy" id="energy" aria-label="Contact">
+            <div class="panel__glow"></div>
+            <div class="panel__inner panel__inner--narrow">
+               <p class="eyebrow">Energy &mdash; Balance</p>
+               <h2 class="title">Contact Me</h2>
+               <form class="form" id="contactForm" novalidate>
+                  <label class="field">
+                     <span>Name</span>
+                     <input type="text" name="name" required autocomplete="name" />
+                  </label>
+                  <label class="field">
+                     <span>Email</span>
+                     <input type="email" name="email" required autocomplete="email" />
+                  </label>
+                  <label class="field">
+                     <span>Message</span>
+                     <textarea name="message" rows="4" required></textarea>
+                  </label>
+                  <button class="btn btn--solid" type="submit">Send Message</button>
+                  <p class="form__status" id="formStatus" role="status"></p>
+               </form>
+               <nav class="social" aria-label="Social links">
+                  <a href="mailto:jmohale170@gmail.com">Email</a>
+                  <a href="https://linkedin.com/in/normaj-mohale" target="_blank" rel="noopener">LinkedIn</a>
+                  <a href="tel:0692619537">Phone</a>
+               </nav>
+            </div>
+         </section>
 
       </div>
-    </div>
-  </section>
+   </main>
 
-  <!-- ============ EXPERIENCE SECTION ============ -->
-  <section id="experience" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Experience</h2>
+   <!-- ============ SLIDER CONTROLS ============ -->
+   <button class="arrow arrow--left" id="prev" aria-label="Previous section">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+         <path d="M15 4 7 12l8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+      </svg>
+   </button>
+   <button class="arrow arrow--right" id="next" aria-label="Next section">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+         <path d="m9 4 8 8-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+      </svg>
+   </button>
 
-      <!-- A simple vertical list works fine as a "timeline" -->
-      <div class="timeline">
+   <nav class="dots" id="dots" aria-label="Section navigation"></nav>
 
-        <div class="timeline-item">
-          <p class="timeline-date">2024 - Present</p>
-          <h3>Front-End Development Journey</h3>
-          <p>Learning HTML, CSS, JavaScript and UI/UX by building real projects.</p>
-        </div>
-
-        <div class="timeline-item">
-          <p class="timeline-date">2022 - Present</p>
-          <h3>IT Technician</h3>
-          <p>Supporting users, hardware, networks, CCTV, and Microsoft 365.</p>
-        </div>
-
-        <div class="timeline-item">
-          <p class="timeline-date">2021 - 2022</p>
-          <h3>Helpdesk &amp; Technical Support</h3>
-          <p>Frontline troubleshooting, user training and documentation.</p>
-        </div>
-
-        <div class="timeline-item">
-          <p class="timeline-date">Foundations</p>
-          <h3>Rosebank College</h3>
-          <p>Diploma in Software Development — the start of my coding journey.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CONTACT SECTION ============ -->
-  <section id="contact" class="section">
-    <div class="container">
-      <h2 class="section-title">Get In Touch</h2>
-      <p class="section-sub">Open to Junior Front-End, Software Development and IT Support roles.</p>
-
-      <div class="contact-grid">
-
-        <!-- Contact details -->
-        <div class="contact-info">
-          <p><strong>Email:</strong> <a href="mailto:norman@example.com">norman@example.com</a></p>
-          <p><strong>LinkedIn:</strong> <a href="#" target="_blank" rel="noopener">linkedin.com/in/norman-mohale</a></p>
-          <p><strong>GitHub:</strong> <a href="#" target="_blank" rel="noopener">github.com/norman-mohale</a></p>
-          <p><strong>Location:</strong> Boksburg, South Africa</p>
-        </div>
-
-        <!-- Contact form -->
-        <form id="contactForm">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required />
-
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
-
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-
-          <button type="submit" class="btn btn-primary">Send Message</button>
-
-          <!-- Hidden by default, shown by JS after a successful "send" -->
-          <p id="formMessage" class="hidden">Thanks! Your message has been sent.</p>
-        </form>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FOOTER ============ -->
-  <footer>
-    <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> Norman Junior Mohale. All rights reserved.</p>
-      <p>Built with HTML, CSS and JavaScript.</p>
-    </div>
-  </footer>
-
-  <!-- Our JavaScript file, loaded at the end so the page loads first -->
-  <script src="assets/js/main.js"></script>
+   <script src="assets/js/main.js"></script>
 </body>
+
 </html>
