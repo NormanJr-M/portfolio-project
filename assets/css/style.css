@@ -1,506 +1,584 @@
-/* =====================================================
-   Norman's Portfolio — Stylesheet
-   Written in a simple, beginner-friendly style.
-   ===================================================== */
-
-/* -----------------------------------------------------
-   1. CSS VARIABLES
-   These store colors/fonts we reuse everywhere,
-   so we only have to change them in one place.
------------------------------------------------------ */
+/* ---------------------------------------------------------
+   1. DESIGN TOKENS (CSS variables)
+   ---------------------------------------------------------
+*/
 :root {
-  --bg-color: #10141c;       /* main dark background */
-  --card-color: #1a2030;     /* slightly lighter background for cards */
-  --border-color: #2a3142;   /* border around cards */
+  /* Air palette */
+  --air-cream: #f6efdf;
+  --air-sky: #a8cfe5;
+  --air-peach: #f0b884;
+  --air-ink: #2a2723;
 
-  --text-color: #e8e8f0;     /* main text color */
-  --text-light: #a0a6b8;     /* dimmer text color, for paragraphs */
+  /* Water palette */
+  --water-deep: #0b2545;
+  --water-mid: #13456b;
+  --water-cyan: #7fd8e8;
+  --water-foam: #eaf7fb;
 
-  --accent: #ffb020;         /* orange accent color */
-  --accent-2: #2dd6bd;       /* teal accent color */
+  /* Earth palette */
+  --earth-forest: #1f3d2b;
+  --earth-brown: #4a3524;
+  --earth-ochre: #c9a227;
+  --earth-cream: #f4ecd8;
 
-  --font-heading: "Poppins", sans-serif;
-  --font-body: "Inter", sans-serif;
+  /* Fire palette */
+  --fire-charcoal: #1a1618;
+  --fire-crimson: #8e1b17;
+  --fire-orange: #e8871e;
+  --fire-cream: #fbeee2;
+
+  /* Energy palette */
+  --energy-dark: #101015;
+  --energy-navy: #24202c;
+  --energy-gold: #f2c14e;
+  --energy-white: #f2f2f5;
+
+  /* Fonts, timing — used by every panel */
+  --font-display: "Cinzel Decorative", serif;
+  --font-accent: "Philosopher", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --ease: cubic-bezier(0.65, 0.02, 0.2, 1);
+  --dur: 700ms;
 }
 
-/* -----------------------------------------------------
-   2. RESET / BASE STYLES
-   Removes default browser spacing and sets base font.
------------------------------------------------------ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; /* padding no longer adds to element width */
+/* ---------------------------------------------------------
+   2. RESET
+   ---------------------------------------------------------
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
+  margin: 0;
   font-family: var(--font-body);
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.6;
+  color: var(--air-ink);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* ---------------------------------------------------------
+   3. THE SLIDER MECHANICS
+   --------------------------------------------------------- */
+.deck {
+  height: 100dvh;
+  overflow: hidden;
 }
 
-ul {
-  list-style: none;
-}
-
-h1, h2, h3 {
-  font-family: var(--font-heading);
-}
-
-img {
-  max-width: 100%;
-}
-
-/* A simple helper class to hide elements with JS */
-.hidden {
-  display: none;
-}
-
-/* -----------------------------------------------------
-   3. LAYOUT HELPERS
------------------------------------------------------ */
-.container {
-  width: 90%;
-  max-width: 1100px;
-  margin: 0 auto; /* centers the container on the page */
-}
-
-.section {
-  padding: 80px 0;
-}
-
-/* Gives every second section a slightly different background,
-   just to break up the page visually */
-.section-alt {
-  background-color: var(--card-color);
-}
-
-.section-title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 40px;
-  color: var(--accent);
-}
-
-.section-sub {
-  text-align: center;
-  color: var(--text-light);
-  margin-top: -20px;
-  margin-bottom: 40px;
-}
-
-/* -----------------------------------------------------
-   4. BUTTONS
------------------------------------------------------ */
-.btn {
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: 0.2s ease; /* smooth hover effect */
-  border: 2px solid transparent;
-}
-
-.btn-sm {
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  background-color: var(--accent);
-  color: #10141c;
-}
-
-.btn-primary {
-  background-color: var(--accent);
-  color: #10141c;
-}
-
-.btn-primary:hover {
-  background-color: var(--accent-2);
-}
-
-.btn-outline {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn-outline:hover {
-  background-color: var(--accent);
-  color: #10141c;
-}
-
-.btn-group {
+.track {
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 30px 0;
+  height: 100%;
+  width: 500%;
+  transition: transform var(--dur) var(--ease);
 }
 
-/* -----------------------------------------------------
-   5. HEADER / NAVIGATION
------------------------------------------------------ */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(16, 20, 28, 0.9);
-  border-bottom: 1px solid var(--border-color);
-  z-index: 100; /* keeps the header above other content */
+.panel {
+  position: relative;
+  flex: 0 0 20%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 5vw, 5rem);
+  overflow: hidden;
 }
 
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
+.panel__glow {
+  position: absolute;
+  inset: -30%;
+  filter: blur(40px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: drift 18s var(--ease) infinite alternate;
 }
 
-.logo {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  font-weight: 700;
+@keyframes drift {
+  from {
+    transform: translate(-3%, -2%) scale(1);
+  }
+
+  to {
+    transform: translate(4%, 3%) scale(1.12);
+  }
 }
 
-.logo span {
+.panel__inner {
+  width: min(1100px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 600ms var(--ease) 120ms, transform 600ms var(--ease) 120ms;
+}
+
+.panel__inner--narrow {
+  width: min(560px, 100%);
+}
+
+.panel.is-active .panel__inner {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------
+   4. ELEMENTAL THEMES
+   --------------------------------------------------------- */
+.panel--air {
+  background: linear-gradient(160deg, var(--air-cream), #fffaf1 60%, var(--air-sky));
+  --fg: var(--air-ink);
+  --accent: var(--air-peach);
+  --muted: #6b6459;
+  --line: rgba(42, 39, 35, 0.14);
+  --surface: rgba(42, 39, 35, 0.05);
+}
+
+.panel--water {
+  background: linear-gradient(160deg, var(--water-deep), var(--water-mid));
+  --fg: var(--water-foam);
+  --accent: var(--water-cyan);
+  --muted: #a9c7d6;
+  --line: rgba(234, 247, 251, 0.18);
+  --surface: rgba(234, 247, 251, 0.07);
+}
+
+.panel--earth {
+  background: linear-gradient(160deg, var(--earth-forest), var(--earth-brown));
+  --fg: var(--earth-cream);
+  --accent: var(--earth-ochre);
+  --muted: #c9bd9f;
+  --line: rgba(244, 236, 216, 0.18);
+  --surface: rgba(244, 236, 216, 0.07);
+}
+
+.panel--fire {
+  background: linear-gradient(160deg, var(--fire-charcoal), var(--fire-crimson));
+  --fg: var(--fire-cream);
+  --accent: var(--fire-orange);
+  --muted: #d9b6a8;
+  --line: rgba(251, 238, 226, 0.18);
+  --surface: rgba(251, 238, 226, 0.07);
+}
+
+.panel--energy {
+  background: linear-gradient(160deg, var(--energy-dark), var(--energy-navy) 55%, #24202c);
+  --fg: var(--energy-white);
+  --accent: var(--energy-gold);
+  --muted: #b7b6bd;
+  --line: rgba(242, 242, 245, 0.18);
+  --surface: rgba(242, 242, 245, 0.07);
+}
+
+.panel {
+  color: var(--fg);
+}
+
+/* ---------------------------------------------------------
+   5. TYPOGRAPHY
+   --------------------------------------------------------- */
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
   color: var(--accent);
 }
 
-#navMenu {
-  display: flex;
-  gap: 24px;
-}
-
-.nav-link {
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.nav-link:hover {
-  color: var(--accent);
-}
-
-/* Hamburger button — hidden on desktop, shown on mobile (see media query) */
-#menuBtn {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.6rem;
-  cursor: pointer;
-}
-
-/* -----------------------------------------------------
-   6. HERO SECTION
------------------------------------------------------ */
-.hero {
-  padding: 150px 0 80px;
-  text-align: center;
+.title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 7vw, 4.75rem);
+  line-height: 1.05;
+  margin: 0 0 0.4rem;
 }
 
 .tagline {
-  display: inline-block;
-  background-color: var(--card-color);
-  border: 1px solid var(--border-color);
-  padding: 6px 16px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  color: var(--text-light);
-}
-
-.hero h1 {
-  font-size: 2.6rem;
-  margin-bottom: 20px;
-}
-
-.hero-text {
-  max-width: 600px;
-  margin: 0 auto;
-  color: var(--text-light);
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 40px;
-}
-
-.stat-box {
-  background-color: var(--card-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.stat-box h3 {
-  font-size: 1.8rem;
+  font-family: var(--font-accent);
+  font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+  margin: 0 0 1rem;
   color: var(--accent);
 }
 
-.stat-box p {
-  font-size: 0.85rem;
-  color: var(--text-light);
+.lede {
+  max-width: 58ch;
+  font-weight: 300;
+  font-size: clamp(0.98rem, 1.5vw, 1.1rem);
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0 0 2rem;
 }
 
-/* -----------------------------------------------------
-   7. ABOUT SECTION
------------------------------------------------------ */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 40px;
-}
-
-.about-text p {
-  margin-bottom: 16px;
-  color: var(--text-light);
-}
-
-.info-card {
-  background-color: var(--card-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 24px;
-  height: fit-content;
-}
-
-.info-card h3 {
-  margin-bottom: 16px;
-}
-
-.info-card li {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--text-light);
-}
-
-.info-card li:last-child {
-  border-bottom: none;
-}
-
-.info-card li span {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-
-/* -----------------------------------------------------
-   8. SKILLS SECTION
------------------------------------------------------ */
-.skills-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-}
-
-.skills-heading {
-  margin-bottom: 16px;
-  color: var(--accent-2);
-}
-
-.skill-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.skill-list li {
-  background-color: var(--card-color);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 12px;
-  text-align: center;
-}
-
-/* -----------------------------------------------------
-   9. PROJECTS SECTION
------------------------------------------------------ */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.project-card {
-  background-color: var(--card-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 24px;
-}
-
-.project-card h3 {
-  margin-bottom: 10px;
-}
-
-.project-card p {
-  color: var(--text-light);
-  margin-bottom: 12px;
-}
-
-.project-tags {
-  font-size: 0.8rem;
-  color: var(--accent-2);
-}
-
-/* -----------------------------------------------------
-   10. EXPERIENCE / TIMELINE SECTION
------------------------------------------------------ */
-.timeline {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.timeline-item {
-  border-left: 3px solid var(--accent);
-  padding-left: 20px;
-  margin-bottom: 30px;
-}
-
-.timeline-date {
-  color: var(--accent-2);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.timeline-item h3 {
-  margin-bottom: 6px;
-}
-
-.timeline-item p:last-child {
-  color: var(--text-light);
-}
-
-/* -----------------------------------------------------
-   11. CONTACT SECTION
------------------------------------------------------ */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 40px;
-}
-
-.contact-info p {
-  margin-bottom: 16px;
-}
-
-.contact-info a {
-  color: var(--accent);
-}
-
-form {
+/* ---------------------------------------------------------
+   6. BUTTONS
+   --------------------------------------------------------- */
+.row {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 0.85rem;
 }
 
-label {
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.6rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  /* a very large radius = fully rounded "pill" shape */
+  font: inherit;
   font-size: 0.9rem;
-  color: var(--text-light);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 250ms var(--ease), box-shadow 250ms var(--ease);
 }
 
-input,
-textarea {
-  background-color: var(--card-color);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 12px;
-  color: var(--text-color);
-  font-family: inherit;
-  margin-bottom: 12px;
+.btn--solid {
+  background: var(--accent);
+  color: #14110f;
 }
 
-input:focus,
-textarea:focus {
-  outline: 2px solid var(--accent);
+.btn--ghost {
+  background: transparent;
+  color: var(--fg);
 }
 
-#formMessage {
-  color: var(--accent-2);
-  margin-top: 10px;
+.btn:hover {
+  transform: translateY(-2px);
 }
 
-/* -----------------------------------------------------
-   12. FOOTER
------------------------------------------------------ */
-footer {
-  border-top: 1px solid var(--border-color);
-  padding: 30px 0;
-  text-align: center;
-  color: var(--text-light);
-  font-size: 0.9rem;
+.btn--ghost:hover {
+  background: var(--surface);
 }
 
-.footer-inner p {
-  margin-bottom: 6px;
+/* ---------------------------------------------------------
+   7. CARDS + GRID
+   ---------------------------------------------------------
+ */
+.grid {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-/* -----------------------------------------------------
-   13. SCROLL ANIMATION CLASS
-   JS adds ".show" to elements when they scroll into view.
------------------------------------------------------ */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
-.fade-in.show {
-  opacity: 1;
-  transform: translateY(0);
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
-/* -----------------------------------------------------
-   14. RESPONSIVE / MOBILE STYLES
-   Anything below 768px screen width uses these rules.
------------------------------------------------------ */
-@media (max-width: 768px) {
+.card {
+  padding: 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  transition: border-color 300ms var(--ease), transform 300ms var(--ease);
+}
 
-  /* Stack columns instead of side-by-side */
-  .about-grid,
-  .skills-grid,
-  .contact-grid {
-    grid-template-columns: 1fr;
+.card h3 {
+  font-family: var(--font-accent);
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.card--project {
+  display: block;
+}
+
+.tag {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   8. CONTACT FORM
+   --------------------------------------------------------- */
+.form {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field span {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  font: inherit;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form__status {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+  min-height: 1.2em;
+}
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.social a {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.social a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   9. FIXED CONTROLS (arrows + dots)
+   --------------------------------------------------------- */
+.arrow {
+  position: fixed;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  color: var(--arrow-fg, #fff);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 250ms var(--ease), opacity 250ms var(--ease);
+}
+
+.arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+.arrow--left {
+  left: clamp(0.6rem, 2vw, 2rem);
+}
+
+.arrow--right {
+  right: clamp(0.6rem, 2vw, 2rem);
+}
+
+.arrow:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.dots {
+  position: fixed;
+  bottom: clamp(1rem, 3vh, 2.25rem);
+  left: 50%;
+  translate: -50% 0;
+  z-index: 20;
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 250ms var(--ease);
+}
+
+.dot.is-active {
+  width: 30px;
+  border-radius: 999px;
+  background: var(--arrow-accent, #fff);
+  border-color: transparent;
+}
+
+/* ---------------------------------------------------------
+   10. TOP NAV BAR
+   --------------------------------------------------------- */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem clamp(0.9rem, 3vw, 2.25rem);
+  color: var(--arrow-fg, #fff);
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  transition: color 350ms var(--ease);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.brand svg {
+  width: 16px;
+  height: 16px;
+}
+
+.topnav {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.topnav button {
+  padding: 0.45rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.topnav button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.topnav button.is-active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ---------------------------------------------------------
+   11. RESPONSIVE — small screens (phones)
+   --------------------------------------------------------- */
+@media (max-width: 720px) {
+  .arrow {
+    width: 44px;
+    height: 44px;
+    top: auto;
+    bottom: clamp(0.9rem, 3vh, 2rem);
+    translate: 0 0;
   }
 
-  .stats {
-    grid-template-columns: 1fr 1fr;
+  .arrow svg {
+    width: 18px;
+    height: 18px;
   }
 
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .panel {
+    padding: 7.5rem 1.25rem 6.5rem;
+    place-items: start center;
   }
 
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  /* Show the hamburger button */
-  #menuBtn {
-    display: block;
-  }
-
-  /* Turn the nav into a dropdown list under the header */
-  #navMenu {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background-color: var(--card-color);
+  .topbar {
     flex-direction: column;
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.6rem 0.9rem;
   }
 
-  /* This class is toggled on/off by JavaScript */
-  #navMenu.open {
-    display: flex;
+  .topnav {
+    justify-content: center;
+    gap: 0.15rem;
+  }
+
+  .topnav button {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+
+  .brand {
+    align-self: flex-start;
+  }
+}
+
+/* People who've asked their OS to reduce motion get a
+   near-instant experience instead of animations. Accessibility
+   best practice, and only 4 lines of code. */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
