@@ -1,143 +1,157 @@
-/* =====================================================
-   Norman's Portfolio — JavaScript
-   Written in a simple, beginner-friendly style.
-   No frameworks, just plain JavaScript.
-   ===================================================== */
+"use strict";
 
+// ---------------------------------------------------------
+// GRAB THE ELEMENTS NEEDED FROM THE PAGE
+// ---------------------------------------------------------
+const track = document.getElementById("track");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const dotsWrap = document.getElementById("dots");
+const navWrap = document.getElementById("topnav");
 
-/* -----------------------------------------------------
-   1. SET THE CURRENT YEAR IN THE FOOTER
-   Instead of typing "2026" by hand, we let JS fill it in.
------------------------------------------------------ */
-var yearSpan = document.getElementById("year");
-var currentYear = new Date().getFullYear();
-yearSpan.textContent = currentYear;
+const panels = Array.from(track.querySelectorAll(".panel"));
 
+const ariaLabels = ["Air / Home", "Water / About", "Earth / Skills", "Fire / Experience", "Energy / Contact"];
+const navLabels = ["Home", "About", "Skills", "Experience", "Contact"];
 
-/* -----------------------------------------------------
-   2. MOBILE MENU (HAMBURGER BUTTON)
-   Clicking the button shows/hides the nav menu.
------------------------------------------------------ */
-var menuBtn = document.getElementById("menuBtn");
-var navMenu = document.getElementById("navMenu");
+let currentIndex = 0;
 
-menuBtn.addEventListener("click", function () {
-  // toggle() adds the class if it's missing, removes it if it's there
-  navMenu.classList.toggle("open");
-});
+// ---------------------------------------------------------
+// BUILD THE DOTS AND THE TOP NAV LINKS
+// ---------------------------------------------------------
 
-// Close the menu automatically when a link is clicked (nice on mobile)
-var navLinks = document.querySelectorAll(".nav-link");
-for (var i = 0; i < navLinks.length; i++) {
-  navLinks[i].addEventListener("click", function () {
-    navMenu.classList.remove("open");
-  });
-}
+const dots = panels.map(function (panel, i) {
+  const dot = document.createElement("button"); // create a new <button> element
+  dot.className = "dot";
+  dot.type = "button";
+  dot.setAttribute("aria-label", "Go to " + ariaLabels[i]);
 
-
-/* -----------------------------------------------------
-   3. ANIMATED NUMBER COUNTERS (in the hero stats)
-   Counts up from 0 to the target number.
------------------------------------------------------ */
-var counters = document.querySelectorAll(".counter");
-
-function startCounter(counterElement) {
-  var target = parseInt(counterElement.getAttribute("data-target"));
-  var current = 0;
-
-  // setInterval runs this function repeatedly, every 30 milliseconds
-  var timer = setInterval(function () {
-    current = current + 1;
-    counterElement.textContent = current;
-
-    // once we reach the target, stop the timer
-    if (current >= target) {
-      counterElement.textContent = target;
-      clearInterval(timer);
-    }
-  }, 30);
-}
-
-// Keep track of whether we've already started the counters,
-// so they don't restart every time the user scrolls.
-var countersStarted = false;
-
-
-/* -----------------------------------------------------
-   4. SCROLL ANIMATIONS
-   Adds the "fade-in" class to sections so CSS can animate them,
-   then adds "show" once they're visible on screen.
------------------------------------------------------ */
-
-// Add the fade-in class to every section when the page first loads
-var animatedSections = document.querySelectorAll(".section, .hero");
-animatedSections.forEach(function (section) {
-  section.classList.add("fade-in");
-});
-
-// This function checks each element and reveals it if it's in view
-function checkScroll() {
-  animatedSections.forEach(function (section) {
-    var sectionTop = section.getBoundingClientRect().top;
-    var windowHeight = window.innerHeight;
-
-    // If the top of the section has scrolled into the visible area...
-    if (sectionTop < windowHeight - 100) {
-      section.classList.add("show");
-    }
+  // When this dot is clicked, jump to panel number i.
+  dot.addEventListener("click", function () {
+    goToPanel(i);
   });
 
-  // Start the number counters once the hero stats are visible
-  var statsBox = document.querySelector(".stats");
-  if (statsBox && !countersStarted) {
-    var statsTop = statsBox.getBoundingClientRect().top;
-    if (statsTop < window.innerHeight - 50) {
-      counters.forEach(startCounter);
-      countersStarted = true;
-    }
-  }
+  dotsWrap.appendChild(dot); // actually insert it into the page
+  return dot;
+});
+
+const navButtons = panels.map(function (panel, i) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = navLabels[i];
+
+  button.addEventListener("click", function () {
+    goToPanel(i);
+  });
+
+  navWrap.appendChild(button);
+  return button;
+});
+
+// ---------------------------------------------------------
+// THE CORE FUNCTION: MOVE TO A GIVEN PANEL
+// ---------------------------------------------------------
+function goToPanel(targetIndex) {
+  currentIndex = Math.max(0, Math.min(panels.length - 1, targetIndex));
+
+  const percentToShift = currentIndex * 20;
+  track.style.transform = "translateX(-" + percentToShift + "%)";
+
+  // Loop over every panel and update its classes/attributes.
+  panels.forEach(function (panel, i) {
+    const isActive = i === currentIndex;
+    panel.classList.toggle("is-active", isActive);
+    panel.setAttribute("aria-hidden", String(!isActive));
+  });
+
+  // Same idea for the dots — only the current one gets "is-active".
+  dots.forEach(function (dot, i) {
+    dot.classList.toggle("is-active", i === currentIndex);
+  });
+
+  // And the top nav buttons.
+  navButtons.forEach(function (button, i) {
+    button.classList.toggle("is-active", i === currentIndex);
+  });
+
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex === panels.length - 1;
+
+  const activePanelStyles = getComputedStyle(panels[currentIndex]);
+  document.documentElement.style.setProperty("--arrow-fg", activePanelStyles.getPropertyValue("--fg"));
+  document.documentElement.style.setProperty("--arrow-accent", activePanelStyles.getPropertyValue("--accent"));
 }
 
-// Run once on page load, then again every time the user scrolls
-checkScroll();
-window.addEventListener("scroll", checkScroll);
+function goNext() { goToPanel(currentIndex + 1); }
+function goPrev() { goToPanel(currentIndex - 1); }
 
+// ---------------------------------------------------------
+// WIRE UP THE ARROW BUTTONS
+// ---------------------------------------------------------
+nextBtn.addEventListener("click", goNext);
+prevBtn.addEventListener("click", goPrev);
 
-/* -----------------------------------------------------
-   5. CONTACT FORM
-   Basic validation + a fake "success" message.
-   (There is no real backend here, so nothing is actually
-   emailed — this just demonstrates the front-end behaviour.)
------------------------------------------------------ */
-var contactForm = document.getElementById("contactForm");
-var formMessage = document.getElementById("formMessage");
+// ---------------------------------------------------------
+// KEYBOARD SUPPORT
+// ---------------------------------------------------------
+document.addEventListener("keydown", function (event) {
+  const typingInField = event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA";
+  if (typingInField) return;
 
-contactForm.addEventListener("submit", function (event) {
-  // Stop the form from refreshing the page
-  event.preventDefault();
+  if (event.key === "ArrowRight") goNext();
+  if (event.key === "ArrowLeft") goPrev();
+  if (event.key === "Home") goToPanel(0);
+  if (event.key === "End") goToPanel(panels.length - 1);
+});
 
-  var nameValue = document.getElementById("name").value.trim();
-  var emailValue = document.getElementById("email").value.trim();
-  var messageValue = document.getElementById("message").value.trim();
+// ---------------------------------------------------------
+// 6. SWIPE SUPPORT (touchscreens / mobile)
+// ---------------------------------------------------------
+let touchStartX = 0;
+let touchStartY = 0;
 
-  // Very simple checks - just enough to catch empty fields
-  if (nameValue === "" || emailValue === "" || messageValue === "") {
-    alert("Please fill in every field before sending.");
-    return; // stop here, don't continue
-  }
+track.addEventListener("touchstart", function (event) {
+  const touch = event.changedTouches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
 
-  // Simple check for an "@" symbol in the email
-  if (emailValue.indexOf("@") === -1) {
-    alert("Please enter a valid email address.");
+track.addEventListener("touchend", function (event) {
+  const touch = event.changedTouches[0];
+  const distanceX = touch.clientX - touchStartX;
+  const distanceY = touch.clientY - touchStartY;
+  const SWIPE_THRESHOLD = 55; // must move at least this many pixels to count as a swipe
+
+  const wasHorizontalSwipe = Math.abs(distanceX) > SWIPE_THRESHOLD && Math.abs(distanceX) > Math.abs(distanceY);
+  if (!wasHorizontalSwipe) return; // ignore small movements or vertical scrolling
+
+  if (distanceX < 0) { goNext(); } else { goPrev(); }
+});
+
+document.querySelectorAll("[data-goto]").forEach(function (element) {
+  element.addEventListener("click", function (event) {
+    event.preventDefault(); // stop the link from trying to navigate to "#fire"
+    const targetIndex = parseInt(element.dataset.goto, 10);
+    goToPanel(targetIndex);
+  });
+});
+
+// ---------------------------------------------------------
+// CONTACT FORM (front-end only — no email is actually sent)
+// ---------------------------------------------------------
+const form = document.getElementById("contactForm");
+const status = document.getElementById("formStatus");
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault(); // stop the page from reloading, which is the browser's default behavior
+
+  if (!form.checkValidity()) {
+    status.textContent = "Please complete every field before sending.";
     return;
   }
 
-  // If we get here, everything looks fine
-  formMessage.classList.remove("hidden");
-  contactForm.reset();
-
-  // Hide the success message again after 4 seconds
-  setTimeout(function () {
-    formMessage.classList.add("hidden");
-  }, 4000);
+  status.textContent = "Message sent — I'll reply shortly.";
+  form.reset(); // clears the input fields
 });
+
+goToPanel(0);
